@@ -1,54 +1,49 @@
 package pizza;
 
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+public class Testcase {
 
-public class PizzaCASE {
-
-    private Pizza basicPizza;
-
-    @BeforeEach
-    void setUp() {
-        basicPizza = new BasicPizza();
+    @Test
+    public void testBasicPizza() {
+        Pizza pizza = new BasicPizza();
+        assertEquals("Basic Pizza", pizza.getDescription());
+        assertEquals(5.00, pizza.getCost());
     }
 
     @Test
-    void testBasicPizzaDescription() {
-        assertEquals("Basic Pizza", basicPizza.getDescription());
+    public void testCheeseDecorator() {
+        Pizza pizza = new BasicPizza();
+        pizza = new CheeseDecorator(pizza);
+        assertEquals("Basic Pizza, Cheese", pizza.getDescription());
+        assertEquals(6.50, pizza.getCost());
     }
 
     @Test
-    void testBasicPizzaCost() {
-        assertEquals(5.00, basicPizza.getCost());
+    public void testPepperoniDecorator() {
+        Pizza pizza = new BasicPizza();
+        pizza = new PepperoniDecorator(pizza);
+        assertEquals("Basic Pizza, Pepperoni", pizza.getDescription());
+        assertEquals(7.00, pizza.getCost());
     }
 
     @Test
-    void testCheeseDecorator() {
-        Pizza cheesePizza = new CheeseDecorator(basicPizza);
-        assertEquals("Basic Pizza, Cheese", cheesePizza.getDescription());
-        assertEquals(6.50, cheesePizza.getCost());
+    public void testVegetableDecorator() {
+        Pizza pizza = new BasicPizza();
+        pizza = new VegetableDecorator(pizza);
+        assertEquals("Basic Pizza, Vegetables", pizza.getDescription());
+        assertEquals(6.25, pizza.getCost());
     }
 
     @Test
-    void testPepperoniDecorator() {
-        Pizza pepperoniPizza = new PepperoniDecorator(basicPizza);
-        assertEquals("Basic Pizza, Pepperoni", pepperoniPizza.getDescription());
-        assertEquals(7.00, pepperoniPizza.getCost());
-    }
-
-    @Test
-    void testVegetableDecorator() {
-        Pizza vegetablePizza = new VegetableDecorator(basicPizza);
-        assertEquals("Basic Pizza, Vegetables", vegetablePizza.getDescription());
-        assertEquals(6.25, vegetablePizza.getCost());
-    }
-
-    @Test
-    void testMultipleDecorators() {
-        Pizza pizza = new CheeseDecorator(new PepperoniDecorator(new VegetableDecorator(basicPizza)));
-        assertEquals("Basic Pizza, Vegetables, Pepperoni, Cheese", pizza.getDescription());
-        assertEquals(8.75, pizza.getCost());
+    public void testCombinedDecorators() {
+        Pizza pizza = new BasicPizza();
+        pizza = new CheeseDecorator(pizza);
+        pizza = new PepperoniDecorator(pizza);
+        pizza = new VegetableDecorator(pizza);
+        
+        assertEquals("Basic Pizza, Cheese, Pepperoni, Vegetables", pizza.getDescription());
+        assertEquals(9.75, pizza.getCost());
     }
 }
